@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BusinessLayer.Services
 {
-    public class UserBl:IUserBl
+    public class UserBl : IUserBl
     {
         IUserRl userRl;
         public UserBl(IUserRl userRl)
@@ -27,5 +27,31 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public string Login(UserLogin userLogin)
+        {
+
+            try
+            {
+                return this.userRl.Login(userLogin);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        //public string JwtMethod(string email,long id)
+        //{
+        //    try
+        //    {
+        //        return this.userRl.JwtMethod(string email,long id);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+
+        //}
     }
 }

@@ -9,5 +9,7 @@ namespace RepoLayer.Interface
     public interface IUserRl
     {
         public UserEntity Registration(UserRegistration user);
+        public string Login(UserLogin userLogin);
+        public string JwtMethod(string email, long id);
     }
 }
