@@ -1,7 +1,12 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RepoLayer.Entity;
+using System;
+using System.Linq;
+using System.Security.Claims;
 
 namespace FundooNotesProject.Controllers
 {
@@ -19,18 +24,19 @@ namespace FundooNotesProject.Controllers
         {
             try
             {
-                var result=iuserBl.Registration(registration);
+                var result = iuserBl.Registration(registration);
                 if (result != null)
                 {
                     return this.Ok(new
                     {
                         success = true,
-                        message="Registration Successfull",
-                        Response=result
+                        message = "Registration Successfull",
+                        Response = result
                     });
 
                 }
-                else{
+                else
+                {
                     return this.BadRequest(new
                     {
                         success = false,
@@ -38,9 +44,8 @@ namespace FundooNotesProject.Controllers
                     });
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
-
                 throw;
             }
         }
@@ -69,11 +74,69 @@ namespace FundooNotesProject.Controllers
                     });
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 throw;
             }
         }
+        [HttpPost("Forget")]
+        public IActionResult Forget(string email)
+        {
+            try
+            {
+                var token = iuserBl.ForgetPassword(email);
+                if (token == null)
+                {
+                    return this.BadRequest(new
+                    {
+                        success = false,
+                        message = "mail not send",
+                    });
 
+                }
+                return this.Ok(new
+                {
+                    success = true,
+                    message = "Reset mail send successfully",
+                    token = token
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [Authorize]
+        [HttpPost("Reset")]
+       
+        public IActionResult ResetPassword(string password, string confirmPassword)
+        {
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email).Value;
+                var result = iuserBl.ResetPassword(email, password, confirmPassword);
+                if (result!=null)
+                {
+                    return this.Ok(new
+                    {
+                        Success = true,
+                        message = "Your password has been changed sucessfully",
+                        Response = result
+                    }) ; 
+                }
+                else
+                {
+                    return this.BadRequest(new { 
+                        Success = false, 
+                        message = "Unable to reset password.Please try again" 
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
     }
 }

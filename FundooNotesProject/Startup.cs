@@ -115,12 +115,18 @@ namespace FundooNotesProject
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fundoo");
             });
         }
     }
