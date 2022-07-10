@@ -51,12 +51,12 @@ namespace RepoLayer.Services
             try
             {
                 UserEntity userEntity = new UserEntity();
-                userEntity.Email = user.Email;
                 userEntity.FirstName = user.FirstName;
                 userEntity.LastName = user.LastName;
+                userEntity.Email = user.Email;
                 userEntity.Password=user.Password;
-                fundooContext.Users.Add(userEntity);
-                int result=fundooContext.SaveChanges();
+                this.fundooContext.Users.Add(userEntity);
+                int result=this.fundooContext.SaveChanges();
                 if (result > 0)
                 {
                     return userEntity;
@@ -96,6 +96,49 @@ namespace RepoLayer.Services
 
             // 5. Return Token from method
             return tokenHandler.WriteToken(token);
+        }
+        public string ForgetPassword(string email)
+        {
+            try
+            {
+                var emailCheck = fundooContext.Users.FirstOrDefault(e => e.Email == email);
+                if (emailCheck != null)
+                {
+                    var token = JwtMethod(emailCheck.Email, emailCheck.UserId);
+                    new MsmqModel().MsmqSend(token);
+                    return token;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public bool ResetPassword(string email, string password, string confirmpassword)
+        {
+            try
+            {
+                if (password.Equals(confirmpassword))
+                {
+                    UserEntity user = fundooContext.Users.Where(e => e.Email == email).FirstOrDefault();
+                    user.Password = confirmpassword;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

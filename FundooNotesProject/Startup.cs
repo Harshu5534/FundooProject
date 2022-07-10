@@ -39,6 +39,8 @@ namespace FundooNotesProject
             services.AddControllers();
             services.AddTransient<IUserBl, UserBl>();
             services.AddTransient<IUserRl, UserRl>();
+            services.AddTransient<INoteBl, NoteBl>();
+            services.AddTransient<INoteRl, NoteRl>();
             services.AddSwaggerGen(c =>
             {
                 var jwtSecurityScheme = new OpenApiSecurityScheme
@@ -102,7 +104,6 @@ namespace FundooNotesProject
             });
 
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

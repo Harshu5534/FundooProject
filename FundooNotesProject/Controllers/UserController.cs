@@ -98,7 +98,6 @@ namespace FundooNotesProject.Controllers
                 {
                     success = true,
                     message = "Reset mail send successfully",
-                    token = token
                 });
             }
             catch (Exception)

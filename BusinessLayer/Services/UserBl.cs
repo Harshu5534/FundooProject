@@ -41,17 +41,28 @@ namespace BusinessLayer.Services
             }
 
         }
-        //public string JwtMethod(string email,long id)
-        //{
-        //    try
-        //    {
-        //        return this.userRl.JwtMethod(string email,long id);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
+        public string ForgetPassword(string email)
+        {
+            try
+            {
+                return userRl.ForgetPassword(email);
+            }
+            catch (Exception)
+            {
 
-        //}
+                throw;
+            }
+        }
+        public bool ResetPassword(string email, string password, string confirmpassword)
+        {
+            try
+            {
+                return userRl.ResetPassword(email, password, confirmpassword);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
