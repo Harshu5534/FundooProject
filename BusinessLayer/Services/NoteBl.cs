@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using RepoLayer.Entity;
 using RepoLayer.Interface;
 using System;
@@ -94,6 +95,18 @@ namespace BusinessLayer.Services
             try
             {
                 return this.noteRl.GetAllNotesbyuserid(userid);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public NoteEntity UploadImage(long noteid, IFormFile img)
+        {
+            try
+            {
+                return this.noteRl.UploadImage(noteid, img);
             }
             catch (Exception)
             {

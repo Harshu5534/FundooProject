@@ -193,5 +193,27 @@ namespace FundooNotesProject.Controllers
                 throw;
             }
         }
+        [Authorize]
+        [HttpPut("Upload")]
+        public IActionResult UploadImage(long noteid, IFormFile img)
+        {
+            try
+            {
+                var result = inoteBl.UploadImage(noteid, img);
+                if (result != null)
+                {
+                    return this.Ok(new { message = "uploaded ", Response = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { message = "Not uploaded" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

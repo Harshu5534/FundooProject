@@ -1,9 +1,7 @@
 ﻿using CommonLayer.Model;
 using Microsoft.AspNetCore.Http;
 using RepoLayer.Entity;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RepoLayer.Interface
 {

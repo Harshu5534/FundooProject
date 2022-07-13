@@ -1,4 +1,7 @@
-﻿using CommonLayer.Model;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using RepoLayer.Context;
 using RepoLayer.Entity;
@@ -14,6 +17,10 @@ namespace RepoLayer.Services
     {
         FundooContext fundooContext;
         private readonly IConfiguration config;
+        public const string CLOUD_NAME = "imageupl";
+        public const string API_KEY = "913737481261618";
+        public const string API_Secret = "aedXJOOgdxKLFdmWGx8p6_RT6vQ";
+        public static Cloudinary cloud;
         public NoteRl(FundooContext fundooContext, IConfiguration config)
         {
             this.config = config;
@@ -141,6 +148,38 @@ namespace RepoLayer.Services
         public IEnumerable<NoteEntity> GetAllNotesbyuserid(long userid)
         {
             return fundooContext.NotesTable.Where(n => n.UserId == userid).ToList();
+        }
+        public NoteEntity UploadImage(long noteid, IFormFile img)
+        {
+            try
+            {
+                var noteId = this.fundooContext.NotesTable.FirstOrDefault(e => e.NoteId == noteid);
+                if (noteId != null)
+                {
+                    Account acc = new Account(CLOUD_NAME, API_KEY, API_Secret);
+                    cloud = new Cloudinary(acc);
+                    var imagePath = img.OpenReadStream();
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(img.FileName, imagePath)
+                    };
+                    var uploadresult = cloud.Upload(uploadParams);
+                    noteId.Image = img.FileName;
+                    fundooContext.NotesTable.Update(noteId);
+                    int upload = fundooContext.SaveChanges();
+                    if (upload > 0)
+                    {
+                        return noteId;
+                    }
+                }
+                return null;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

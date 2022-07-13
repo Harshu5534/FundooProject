@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RepoLayer.Context;
 
 namespace RepoLayer.Migrations
 {
     [DbContext(typeof(FundooContext))]
-    partial class FundooContextModelSnapshot : ModelSnapshot
+    [Migration("20220711135948_Collaborator")]
+    partial class Collaborator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,34 +47,6 @@ namespace RepoLayer.Migrations
                     b.HasIndex("notesNoteId");
 
                     b.ToTable("Collaborator");
-                });
-
-            modelBuilder.Entity("RepoLayer.Entity.LabelEntity", b =>
-                {
-                    b.Property<long>("LabelId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("LabelName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Noteid")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Userid")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("notesNoteId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("LabelId");
-
-                    b.HasIndex("Userid");
-
-                    b.HasIndex("notesNoteId");
-
-                    b.ToTable("Labels");
                 });
 
             modelBuilder.Entity("RepoLayer.Entity.NoteEntity", b =>
@@ -147,19 +121,6 @@ namespace RepoLayer.Migrations
                 });
 
             modelBuilder.Entity("RepoLayer.Entity.CollabEntity", b =>
-                {
-                    b.HasOne("RepoLayer.Entity.UserEntity", "user")
-                        .WithMany()
-                        .HasForeignKey("Userid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RepoLayer.Entity.NoteEntity", "notes")
-                        .WithMany()
-                        .HasForeignKey("notesNoteId");
-                });
-
-            modelBuilder.Entity("RepoLayer.Entity.LabelEntity", b =>
                 {
                     b.HasOne("RepoLayer.Entity.UserEntity", "user")
                         .WithMany()

@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using RepoLayer.Entity;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace BusinessLayer.Interface
         public NoteEntity IsArchivedORNot(long noteid);
         IEnumerable<NoteEntity> GetAllNotes();
         IEnumerable<NoteEntity> GetAllNotesbyuserid(long userid);
+        public NoteEntity UploadImage(long noteid, IFormFile img);
     }
 }
