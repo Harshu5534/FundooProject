@@ -11,9 +11,9 @@ namespace RepoLayer.Services
 {
     public class LabelRl : ILabelRl
     {
-        FundooContext fundooContext;
+        fundooContext fundooContext;
         private readonly IConfiguration config;
-        public LabelRl(FundooContext fundooContext, IConfiguration config)
+        public LabelRl(fundooContext fundooContext, IConfiguration config)
         {
             this.config = config;
             this.fundooContext = fundooContext;

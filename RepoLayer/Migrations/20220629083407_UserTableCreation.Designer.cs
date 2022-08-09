@@ -8,7 +8,7 @@ using RepoLayer.Context;
 
 namespace RepoLayer.Migrations
 {
-    [DbContext(typeof(FundooContext))]
+    [DbContext(typeof(fundooContext))]
     [Migration("20220629083407_UserTableCreation")]
     partial class UserTableCreation
     {

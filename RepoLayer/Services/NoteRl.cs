@@ -15,13 +15,13 @@ namespace RepoLayer.Services
 {
     public class NoteRl:INoteRl
     {
-        FundooContext fundooContext;
+        fundooContext fundooContext;
         private readonly IConfiguration config;
         public const string CLOUD_NAME = "imageupl";
         public const string API_KEY = "913737481261618";
         public const string API_Secret = "aedXJOOgdxKLFdmWGx8p6_RT6vQ";
         public static Cloudinary cloud;
-        public NoteRl(FundooContext fundooContext, IConfiguration config)
+        public NoteRl(fundooContext fundooContext, IConfiguration config)
         {
             this.config = config;
             this.fundooContext = fundooContext;
@@ -174,6 +174,25 @@ namespace RepoLayer.Services
                 }
                 return null;
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public NoteEntity Color(long noteid, string color)
+        {
+            try
+            {
+                NoteEntity note = this.fundooContext.NotesTable.FirstOrDefault(x => x.NoteId == noteid);
+                if (note.Color != null)
+                {
+                    note.Color = color;
+                    this.fundooContext.SaveChanges();
+                    return note;
+                }
+                return null;
             }
             catch (Exception)
             {

@@ -9,7 +9,7 @@ using RepoLayer.Context;
 
 namespace RepoLayer.Migrations
 {
-    [DbContext(typeof(FundooContext))]
+    [DbContext(typeof(fundooContext))]
     [Migration("20220711135948_Collaborator")]
     partial class Collaborator
     {

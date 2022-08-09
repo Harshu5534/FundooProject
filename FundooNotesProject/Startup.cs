@@ -32,10 +32,22 @@ namespace FundooNotesProject
 
         public IConfiguration Configuration { get; }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+
+            services.AddDbContext<fundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
             services.AddControllers();
             services.AddTransient<IUserBl, UserBl>();
             services.AddTransient<IUserRl, UserRl>();
@@ -45,6 +57,11 @@ namespace FundooNotesProject
             services.AddTransient<ICollabRl, CollabRl>();
             services.AddTransient<ILabelBl, LabelBl>();
             services.AddTransient<ILabelRl, LabelRl>();
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379";
+            });
+            services.AddMemoryCache();
             services.AddSwaggerGen(c =>
             {
                 var jwtSecurityScheme = new OpenApiSecurityScheme
@@ -113,6 +130,8 @@ namespace FundooNotesProject
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -15,9 +15,9 @@ namespace RepoLayer.Services
 {
     public class UserRl:IUserRl
     {
-        FundooContext fundooContext;
+        fundooContext fundooContext;
         private readonly IConfiguration config;
-        public UserRl(FundooContext fundooContext, IConfiguration config)
+        public UserRl(fundooContext fundooContext, IConfiguration config)
         {
             this.fundooContext = fundooContext;
             this.config = config;
@@ -54,7 +54,7 @@ namespace RepoLayer.Services
                 userEntity.FirstName = user.FirstName;
                 userEntity.LastName = user.LastName;
                 userEntity.Email = user.Email;
-                userEntity.Password=user.Password;
+                userEntity.Password = PwdEncryptDecryptService.EncryptPassword(user.Password);
                 this.fundooContext.Users.Add(userEntity);
                 int result=this.fundooContext.SaveChanges();
                 if (result > 0)

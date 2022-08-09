@@ -17,5 +17,6 @@ namespace BusinessLayer.Interface
         IEnumerable<NoteEntity> GetAllNotes();
         IEnumerable<NoteEntity> GetAllNotesbyuserid(long userid);
         public NoteEntity UploadImage(long noteid, IFormFile img);
+        public NoteEntity Color(long noteid, string color);
     }
 }

@@ -11,9 +11,9 @@ namespace RepoLayer.Services
 {
     public class CollabRl : ICollabRl
     {
-        FundooContext fundooContext;
+        fundooContext fundooContext;
         private readonly IConfiguration config;
-        public CollabRl(FundooContext fundooContext, IConfiguration config)
+        public CollabRl(fundooContext fundooContext, IConfiguration config)
         {
             this.config = config;
             this.fundooContext = fundooContext;
