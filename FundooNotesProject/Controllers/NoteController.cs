@@ -133,7 +133,8 @@ namespace FundooNotesProject.Controllers
                 {
                     return this.Ok(new 
                     { 
-                        message = "Note unPinned ", 
+                        success = true,
+                        message = "Note Pinned Successfully", 
                         Response = result 
                     });
                 }
@@ -141,7 +142,7 @@ namespace FundooNotesProject.Controllers
                 {
                     return this.BadRequest(new 
                     { 
-                        message = "Note Pinned Successfully" 
+                        message = "Note unPinned "
                     });
                 }
             }
@@ -152,7 +153,7 @@ namespace FundooNotesProject.Controllers
             }
         }
         [Authorize]
-        [HttpPut("Archive")]
+        [HttpPut("{noteid}")]
         public IActionResult IsArchivedORNot(long noteid)
         {
             try
@@ -161,16 +162,16 @@ namespace FundooNotesProject.Controllers
                 if (result != null)
                 {
                     return this.Ok(new 
-                    { 
-                        message = "Note Unarchived ", 
+                    {
+                        message = "Note Archived Successfully", 
                         Response = result 
                     });
                 }
                 else
                 {
                     return this.BadRequest(new 
-                    { 
-                        message = "Note Archived Successfully" 
+                    {
+                        message = "Note Unarchived ",
                     });
                 }
             }

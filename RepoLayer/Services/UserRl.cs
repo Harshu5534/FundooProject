@@ -54,7 +54,8 @@ namespace RepoLayer.Services
                 userEntity.FirstName = user.FirstName;
                 userEntity.LastName = user.LastName;
                 userEntity.Email = user.Email;
-                userEntity.Password = PwdEncryptDecryptService.EncryptPassword(user.Password);
+                userEntity.Password=user.Password;
+                ///userEntity.Password = PwdEncryptDecryptService.EncryptPassword(user.Password);
                 this.fundooContext.Users.Add(userEntity);
                 int result=this.fundooContext.SaveChanges();
                 if (result > 0)
@@ -105,8 +106,8 @@ namespace RepoLayer.Services
                 if (emailCheck != null)
                 {
                     var token = JwtMethod(emailCheck.Email, emailCheck.UserId);
-                    new MsmqModel().MsmqSend(token);
-                    return token;
+                    new MsmqModel().MsmqSend($"http://localhost:4200/Resetpassword/{token}");
+                    return $"http://localhost:4200/Resetpassword/{token}";
                 }
                 else
                 {
